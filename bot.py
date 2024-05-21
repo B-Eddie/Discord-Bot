@@ -75,9 +75,9 @@ async def on_message(message):
 
 def get_embed_text(embed):
     text_content = ""
-    if embed.title:
-        text_content += f"Title: {embed.title}\n"
-        print(embed.title)
+    # if embed.title:
+    #     text_content += f"Title: {embed.title}\n"
+    #     print(embed.title)
     #if embed.description:
         # text_content += f"Description: {embed.description}\n"
     if embed.fields:
