@@ -1,3 +1,4 @@
+import random
 import discord
 import os
 from dotenv import load_dotenv
@@ -20,7 +21,7 @@ def extract_numbers(input_string):
 def get_upgrade_recommendation(eff_level, eff_cost, eff_increase, eff_chance, qual_level, qual_cost, qual_increase, qual_reduction):
     eff_cost_efficiency = eff_increase / eff_cost
     qual_cost_efficiency = qual_increase / qual_cost
-    
+
     if eff_cost_efficiency > qual_cost_efficiency:
         return "Upgrade Efficiency"
     else:
@@ -41,37 +42,53 @@ async def on_message(message):
                     efficiency_level = extract_numbers(splitted[0]).strip()
                     efficiency = splitted[1][5:].strip()
                     fertalizer_applied = splitted[3].split("%")[0].strip()
-                    
+
                     quality_level = extract_numbers(splitted[4]).strip()
                     quality = splitted[5][5:].strip()
                     quality_reduction = splitted[7].split("%")[0].strip()
-                    
+
 
                     #print(efficiency, "\n\n", fertalizer_applied, "\n\n", quality, "\n\n", quality_reduction)
-                    
+
                     # Parse the embed content (this is just an example, parsing needs to be accurate as per actual embed structure)
                     eff_level = float(efficiency_level)  # Replace with actual parsing logic
                     eff_cost = float(efficiency.split(" ")[0].split("/")[1]) # Replace with actual parsing logic
                     eff_increase = float(efficiency.split("+")[1].split("%")[0])  # Replace with actual parsing logic
                     eff_chance = float(fertalizer_applied)  # Replace with actual parsing logic
-                    
+
                     qual_level = float(quality_level)  # Replace with actual parsing logic
                     qual_cost = float(quality.split(" ")[0].split("/")[1])  # Replace with actual parsing logic
                     qual_increase = float(quality.split("+")[1].split("%")[0])  # Replace with actual parsing logic
                     qual_reduction = float(quality_reduction)  # Replace with actual parsing logic
-                    
-                    efficiency_total = (eff_increase * qual_increase) / eff_cost
-                    quality_total = (qual_increase * qual_reduction) / qual_cost
 
+                    efficiency_total = (eff_increase * qual_reduction) / eff_cost
+                    quality_total = (qual_increase * qual_increase) / qual_cost
+                    
+                    
+                    print(quality)
+                    print(efficiency)
+                    
+                    
+                    print(f"this:{eff_increase} multiply by: {qual_reduction} divided by: {eff_cost}")
+                    print(f"this:{qual_increase} multiply by: {eff_chance} divided by: {qual_cost}")
                     # print(eff_level, "\n", eff_cost, "\n", eff_increase, "\n", qual_level, "\n", qual_cost, "\n", qual_increase)
                     # print(eff_chance, "\n", qual_reduction)
                     # recommendation = get_upgrade_recommendation(eff_level, eff_cost, eff_increase, eff_chance, qual_level, qual_cost, qual_increase, qual_reduction)
-                    
+
                     #print(f"Recommendation: {recommendation}")
+
                     if efficiency_total > quality_total:
                         await message.channel.send("Upgrade Efficiency")
-                    else:
+                    elif quality_total > efficiency_total:
                         await message.channel.send("Upgrade Quality")
+                        await message.channel.send("I am " + str(random.randint(1, 100)) + "% sure it is quality")
+                    else:
+                        await message.channel.send("Error :( rip")
+                        await message.channel.send(eff_level, "\n", eff_cost, "\n", eff_increase, "\n", qual_level, "\n", qual_cost, "\n", qual_increase)
+                    await message.channel.send("Pls send bot suggestions of the bot to <@882679657881812993>\ni am not repeating 2 diff stats")
+                    await message.channel.send("```css\n [im a real bot now]```")
+                    
+
 
 def get_embed_text(embed):
     text_content = ""
