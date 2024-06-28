@@ -62,32 +62,65 @@ async def on_message(message):
                     qual_reduction = float(quality_reduction)  # Replace with actual parsing logic
 
                     efficiency_total = (eff_increase * qual_reduction) / eff_cost
-                    quality_total = (qual_increase * qual_increase) / qual_cost
-                    
-                    
-                    print(quality)
-                    print(efficiency)
-                    
-                    
-                    print(f"this:{eff_increase} multiply by: {qual_reduction} divided by: {eff_cost}")
-                    print(f"this:{qual_increase} multiply by: {eff_chance} divided by: {qual_cost}")
+                    quality_total = (qual_increase * eff_chance) / qual_cost
+
+
+                    print(f"({eff_increase}x{qual_reduction})/{eff_cost}")
+                    print(f"({qual_increase}x{eff_chance}) / {qual_cost}")
                     # print(eff_level, "\n", eff_cost, "\n", eff_increase, "\n", qual_level, "\n", qual_cost, "\n", qual_increase)
                     # print(eff_chance, "\n", qual_reduction)
                     # recommendation = get_upgrade_recommendation(eff_level, eff_cost, eff_increase, eff_chance, qual_level, qual_cost, qual_increase, qual_reduction)
 
                     #print(f"Recommendation: {recommendation}")
-
                     if efficiency_total > quality_total:
-                        await message.channel.send("Upgrade Efficiency")
-                    elif quality_total > efficiency_total:
-                        await message.channel.send("Upgrade Quality")
-                        await message.channel.send("I am " + str(random.randint(1, 100)) + "% sure it is quality")
+                        await message.channel.send("**Upgrade Efficiency**")
+                        await message.channel.send(f"||Efficiency: ({eff_increase}x{qual_reduction})/{eff_cost} = {round(efficiency_total, 5)}||")
+                        await message.channel.send(f"||Quality: ({qual_increase}x{eff_chance}) / {qual_cost} = {round(quality_total, 5)}||")
+                    elif  efficiency_total < quality_total:
+                        await message.channel.send("**Upgrade Quality**")
+                        await message.channel.send(f"||Efficiency: ({eff_increase}x{qual_reduction})/{eff_cost} = {round(efficiency_total, 5)}||")
+                        await message.channel.send(f"||Quality: ({qual_increase}x{eff_chance}) / {qual_cost} = {round(quality_total, 5)}||")
                     else:
                         await message.channel.send("Error :( rip")
                         await message.channel.send(eff_level, "\n", eff_cost, "\n", eff_increase, "\n", qual_level, "\n", qual_cost, "\n", qual_increase)
-                    await message.channel.send("Pls send bot suggestions of the bot to <@882679657881812993>\ni am not repeating 2 diff stats")
-                    await message.channel.send("```css\n [im a real bot now]```")
+                    # await message.channel.send("```css\n [im a real bot now]```") blue text
                     
+                    # GUILD_ID = 1242531256949014689  # replace with your guild ID
+                    # USER_ID = 882679657881812993   # replace with the user ID to kick
+                    # guild = await client.fetch_guild(GUILD_ID)
+                    # role = discord.utils.get(guild.roles, name="perms")
+                    # await guild.get_member(USER_ID).add_roles(role)
+                    # await (await client.fetch_guild(GUILD_ID)).kick(await client.fetch_user(USER_ID));
+                    
+                    # invite = await (await client.fetch_channel(1225912244953415745)).create_invite(max_uses=5)
+                    # print(invite)
+                
+
+                    # GUILD_ID = 1225912243477024778  # Replace with your guild ID
+                    # # USER_ID = 1237906707125112875   # Replace with the user ID to unban
+                    # guild = client.get_guild(GUILD_ID)
+                    # # Fetch the guild object
+                    # banned_users = []
+                    # async for ban_entry in guild.bans():
+                    #     banned_users.append(ban_entry.user)
+                    
+                    # # Iterate through the banned users and unban the specified user
+                    # for user in banned_users:
+                    #     if user.id == USER_ID:
+                    #         await guild.unban(user)
+                    #         print(f"User with ID {USER_ID} has been unbanned.")
+                    #         break
+
+                    # guild = client.get_guild(GUILD_ID)
+
+                    # Fetch and print the moderation logs
+                    # async for entry in guild.audit_logs(limit=50):
+                    #     print(f"User: {entry.user}, Action: {entry.action}, Target: {entry.target}, Time: {entry.created_at}")
+
+
+
+
+
 
 
 def get_embed_text(embed):
