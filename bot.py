@@ -35,7 +35,6 @@ async def on_message(message):
             for embed in message.embeds:
                 if embed.title == "Community Composter":
                     text_content = get_embed_text(embed)
-                    # print(text_content)
                     splitted = text_content.split("**")
 
 
